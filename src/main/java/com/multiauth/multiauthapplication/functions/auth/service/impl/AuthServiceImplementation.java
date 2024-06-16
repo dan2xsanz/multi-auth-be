@@ -24,6 +24,7 @@ public class AuthServiceImplementation implements AuthService {
         // THROW INVALID CREDENTIALS IF EMPTY
         if (ObjectUtils.isEmpty(accountMaster)) {
             throw new ExemptionError(ExemptionErrorMessages.INVALID_CREDENTIALS);
+
         }
 
         // RETURN ACCOUNT
