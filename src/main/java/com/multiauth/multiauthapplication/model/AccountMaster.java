@@ -21,7 +21,6 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Table(name = "AccountMaster")
 public class AccountMaster {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

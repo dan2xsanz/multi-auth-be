@@ -37,5 +37,6 @@ server:
 allowed:
   origin: http://localhost:3000
 
-
+app:
+  product-image-path: C:\Users\Owner\Documents\Image
 
