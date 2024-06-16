@@ -15,7 +15,7 @@ public class AccountMasterCustomCustomRepositoryImpl implements AccountMasterCus
     @Override
     public void createNewAccount(AccountMasterDto accountMasterDto) {
 
-        String insertSelection =
+        String insertQuery =
                 "INSERT INTO AccountMaster " +
                         "(email, " +
                         "firstName, " +
@@ -23,7 +23,7 @@ public class AccountMasterCustomCustomRepositoryImpl implements AccountMasterCus
                         "password) " +
                         "VALUES (?, ?, ?, ?)";
 
-        jdbcTemplate.update(insertSelection,
+        jdbcTemplate.update(insertQuery,
                 accountMasterDto.getEmail(),
                 accountMasterDto.getFName(),
                 accountMasterDto.getLName(),
