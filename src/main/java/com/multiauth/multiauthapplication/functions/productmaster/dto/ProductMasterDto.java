@@ -43,4 +43,12 @@ public class ProductMasterDto {
     private String productLocation;
 
     private Long accountMasterId;
+
+    @JsonProperty("isDeleted")
+    private boolean isDeleted;
+
+    @JsonProperty("isSold")
+    private boolean isSold;
+
 }
+

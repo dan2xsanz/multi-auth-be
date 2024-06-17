@@ -12,4 +12,6 @@ public interface ProductMasterService {
 
     ProductMasterDto createProduct(ProductMasterDto productMasterDto) throws IOException;
 
+    ProductMasterDto updateProduct(ProductMasterDto productMasterDto) throws IOException;
+
 }

@@ -40,4 +40,13 @@ public class ProductMasterController {
                 .build();
     }
 
+    @PostMapping("update-product")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResultModel updateProduct(@RequestBody ProductMasterDto productMasterDto) throws ExemptionError, IOException {
+        return ApiResultModel.builder()
+                .isSuccess(true)
+                .resultData(productMasterService.updateProduct(productMasterDto))
+                .build();
+    }
+
 }
