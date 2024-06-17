@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -51,7 +52,16 @@ public class ProductMaster extends Auditable {
 
     private Long productCondition;
 
+    @Column(columnDefinition = "TINYINT(1)", length = 1)
+    @JsonProperty("isDeleted")
+    private boolean isDeleted;
+
+    @Column(columnDefinition = "TINYINT(1)", length = 1)
+    @JsonProperty("isSold")
+    private boolean isSold;
+
     @JsonProperty("productDescription")
+    @Column(length = 2000)
     private String productDescription;
 
     private String productLocation;

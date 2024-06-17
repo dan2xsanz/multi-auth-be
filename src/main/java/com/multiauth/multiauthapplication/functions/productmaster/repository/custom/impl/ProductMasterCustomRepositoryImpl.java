@@ -31,8 +31,10 @@ public class ProductMasterCustomRepositoryImpl implements ProductMasterCustomRep
                         "productCondition, " +
                         "productDescription, " +
                         "productLocation, " +
+                        "isDeleted, " +
+                        "isSold, " +
                         "accountMasterId) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.update(insertQuery,
                 productMasterDto.getImage1(),
@@ -45,7 +47,47 @@ public class ProductMasterCustomRepositoryImpl implements ProductMasterCustomRep
                 productMasterDto.getProductCondition(),
                 productMasterDto.getProductDescription(),
                 productMasterDto.getProductLocation(),
+                productMasterDto.isSold(),
+                productMasterDto.isDeleted(),
                 productMasterDto.getAccountMasterId()
+        );
+    }
+
+    @Override
+    public void updateProduct(ProductMasterDto productMasterDto) {
+
+        String updateQuery =
+                "UPDATE ProductMaster SET " +
+                        "image1 = ?, " +
+                        "image2 = ?, " +
+                        "image3 = ?, " +
+                        "image4 = ?, " +
+                        "productName = ?, " +
+                        "productPrice = ?, " +
+                        "productCategory = ?, " +
+                        "productCondition = ?, " +
+                        "productDescription = ?, " +
+                        "productLocation = ?, " +
+                        "isDeleted = ?, " +
+                        "isSold = ?, " +
+                        "accountMasterId = ? " +
+                        "WHERE id = ?";
+
+        jdbcTemplate.update(updateQuery,
+                productMasterDto.getImage1(),
+                productMasterDto.getImage2(),
+                productMasterDto.getImage3(),
+                productMasterDto.getImage4(),
+                productMasterDto.getProductName(),
+                productMasterDto.getProductPrice(),
+                productMasterDto.getProductCategory(),
+                productMasterDto.getProductCondition(),
+                productMasterDto.getProductDescription(),
+                productMasterDto.getProductLocation(),
+                productMasterDto.isDeleted(),
+                productMasterDto.isSold(),
+                productMasterDto.getAccountMasterId(),
+                productMasterDto.getId()
         );
     }
 
@@ -67,7 +109,9 @@ public class ProductMasterCustomRepositoryImpl implements ProductMasterCustomRep
                 "productCondition, " +
                 "productDescription, " +
                 "productLocation, " +
-                "accountMasterId " +
+                "accountMasterId, " +
+                "isSold, " +
+                "isDeleted " +
                 "FROM ProductMaster " +
                 whereClause;
 

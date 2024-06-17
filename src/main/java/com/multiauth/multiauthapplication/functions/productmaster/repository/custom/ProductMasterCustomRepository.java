@@ -9,5 +9,7 @@ public interface ProductMasterCustomRepository {
 
     void createNewProduct(ProductMasterDto productMasterDto);
 
+    void updateProduct(ProductMasterDto productMasterDto);
+
     List<ProductMasterDto> listProductMasters(ProductMasterListRequestDto productMasterListRequestDto);
 }
