@@ -4,6 +4,7 @@ import com.multiauth.multiauthapplication.common.constant.Constant;
 import com.multiauth.multiauthapplication.common.image.ImageService;
 import com.multiauth.multiauthapplication.functions.productmaster.dto.ProductMasterDto;
 import com.multiauth.multiauthapplication.functions.productmaster.dto.ProductMasterListRequestDto;
+import com.multiauth.multiauthapplication.functions.productmaster.dto.ProductMasterListResponseDto;
 import com.multiauth.multiauthapplication.functions.productmaster.repository.ProductMasterRepository;
 import com.multiauth.multiauthapplication.functions.productmaster.repository.custom.ProductMasterCustomRepository;
 import com.multiauth.multiauthapplication.functions.productmaster.service.ProductMasterService;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,51 +38,62 @@ public class ProductMasterServiceImpl implements ProductMasterService {
     private ImageService imageService;
 
     @Override
-    public List<ProductMasterDto> productMasterList(ProductMasterListRequestDto productMasterListRequestDto) throws IOException {
+    public List<ProductMasterListResponseDto> productMasterListFilter(ProductMasterListRequestDto productMasterListRequestDto) throws IOException {
 
-        List<ProductMasterDto> productMasterList = new ArrayList<>();
+        List<ProductMasterListResponseDto> productMasterList = new ArrayList<>();
 
-        // CHECK IF REQUEST HAS ACCOUNT
-        if (ObjectUtils.isNotEmpty(productMasterListRequestDto.getAccountId())) {
+        // FIND LIST OF PRODUCT MASTER BY ACCOUNT
+        List<ProductMaster> productMasters = productMasterRepository.findAllProductMasterByFilter(productMasterListRequestDto.getMainCategory(),
+                productMasterListRequestDto.getAccountId(), productMasterListRequestDto.getProductCategory(), productMasterListRequestDto.getProductCondition());
 
-            // FIND LIST OF PRODUCT MASTER BY ACCOUNT
-            List<ProductMaster> productMasters = productMasterRepository.findAlProductMasterByAccount(productMasterListRequestDto.getAccountId());
+        if (ObjectUtils.isNotEmpty(productMasters)) {
+            for (ProductMaster productMasterDto : productMasters) {
 
-            if (ObjectUtils.isNotEmpty(productMasters)) {
-                for (ProductMaster productMasterDto : productMasters) {
+                ProductMasterListResponseDto productMaster = new ProductMasterListResponseDto();
+                BeanUtils.copyProperties(productMasterDto, productMaster);
 
-                    ProductMasterDto productMaster = new ProductMasterDto();
-                    BeanUtils.copyProperties(productMasterDto, productMaster);
+                // IMAGE 1
+                if (ObjectUtils.isNotEmpty(productMasterDto.getImage1())) {
+                    productMaster.setImage1(
+                            imageService.getUploadImage(Constant.PROD_IMAGE_NAME_1, productImagePath, productMasterDto.getImage1()));
 
-                    // IMAGE 1
-                    if (ObjectUtils.isNotEmpty(productMasterDto.getImage1())) {
-                        productMaster.setImage1(
-                                imageService.getUploadImage(Constant.PROD_IMAGE_NAME_1, productImagePath, productMasterDto.getImage1()));
-
-                    }
-                    // IMAGE 2
-                    if (ObjectUtils.isNotEmpty(productMasterDto.getImage2())) {
-                        productMaster.setImage2(
-                                imageService.getUploadImage(Constant.PROD_IMAGE_NAME_2, productImagePath, productMasterDto.getImage2()));
-
-                    }
-                    // IMAGE 3
-                    if (ObjectUtils.isNotEmpty(productMasterDto.getImage3())) {
-                        productMaster.setImage3(
-                                imageService.getUploadImage(Constant.PROD_IMAGE_NAME_3, productImagePath, productMasterDto.getImage3()));
-
-                    }
-                    // IMAGE 3
-                    if (ObjectUtils.isNotEmpty(productMasterDto.getImage4())) {
-                        productMaster.setImage4(
-                                imageService.getUploadImage(Constant.PROD_IMAGE_NAME_4, productImagePath, productMasterDto.getImage4()));
-
-                    }
-
-                    productMasterList.add(productMaster);
                 }
+                // IMAGE 2
+                if (ObjectUtils.isNotEmpty(productMasterDto.getImage2())) {
+                    productMaster.setImage2(
+                            imageService.getUploadImage(Constant.PROD_IMAGE_NAME_2, productImagePath, productMasterDto.getImage2()));
+
+                }
+                // IMAGE 3
+                if (ObjectUtils.isNotEmpty(productMasterDto.getImage3())) {
+                    productMaster.setImage3(
+                            imageService.getUploadImage(Constant.PROD_IMAGE_NAME_3, productImagePath, productMasterDto.getImage3()));
+
+                }
+                // IMAGE 3
+                if (ObjectUtils.isNotEmpty(productMasterDto.getImage4())) {
+                    productMaster.setImage4(
+                            imageService.getUploadImage(Constant.PROD_IMAGE_NAME_4, productImagePath, productMasterDto.getImage4()));
+
+                }
+
+                // JUST IN PRODUCTS
+                LocalDateTime createdDate = productMasterDto.getCreatedDate();
+                if (createdDate.toLocalDate().isEqual(LocalDate.now())) {
+                    productMaster.setJustIn(true);
+
+                }
+
+                productMaster.setItemFor(productMasterDto.getItemFor().toString());
+                productMaster.setProductCurrency(productMasterDto.getProductCurrency().toString());
+                productMaster.setProductCategory(productMasterDto.getProductCategory().toString());
+                productMaster.setProductCondition(productMasterDto.getProductCondition().toString());
+
+
+                productMasterList.add(productMaster);
             }
         }
+
         return productMasterList;
     }
 
