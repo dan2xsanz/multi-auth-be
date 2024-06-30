@@ -11,6 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductMasterListRequestDto {
 
+    private Long mainCategory;
+
     private Long accountId;
 
+    private Long productCategory;
+
+    private Long productCondition;
 }

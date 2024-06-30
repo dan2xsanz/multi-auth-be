@@ -11,10 +11,18 @@ import java.util.List;
 @Repository
 public interface ProductMasterRepository extends JpaRepository<ProductMaster, Long> {
 
-
     @Query(value = "SELECT * "
             + "FROM ProductMaster "
-            + "WHERE accountMasterId = :accountMasterId "
-            + "AND isDeleted = false ", nativeQuery = true)
-    List<ProductMaster> findAlProductMasterByAccount(@Param("accountMasterId") Long accountMasterId);
+            + "WHERE isDeleted = false "
+            + "AND (:mainCategory is null OR (itemFor = :mainCategory "
+            + "    OR (:mainCategory = 6 AND createdDate >= CURRENT_DATE))) "
+            + "AND (:accountId is null OR accountMasterId = :accountId) "
+            + "AND (:productCategory is null OR productCategory = :productCategory) "
+            + "AND (:productCondition is null OR productCondition = :productCondition) "
+            + "ORDER BY createdDate ASC ", nativeQuery = true)
+    List<ProductMaster> findAllProductMasterByFilter(@Param("mainCategory") Long mainCategory,
+                                                     @Param("accountId") Long accountId,
+                                                     @Param("productCategory") Long productCategory,
+                                                     @Param("productCondition") Long productCondition);
+
 }

@@ -1,9 +1,6 @@
 package com.multiauth.multiauthapplication.functions.productmaster.repository.custom;
 
 import com.multiauth.multiauthapplication.functions.productmaster.dto.ProductMasterDto;
-import com.multiauth.multiauthapplication.functions.productmaster.dto.ProductMasterListRequestDto;
-
-import java.util.List;
 
 public interface ProductMasterCustomRepository {
 
@@ -11,5 +8,4 @@ public interface ProductMasterCustomRepository {
 
     void updateProduct(ProductMasterDto productMasterDto);
 
-    List<ProductMasterDto> listProductMasters(ProductMasterListRequestDto productMasterListRequestDto);
 }

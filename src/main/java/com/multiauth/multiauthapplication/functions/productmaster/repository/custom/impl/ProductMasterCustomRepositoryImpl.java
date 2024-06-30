@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -21,12 +22,17 @@ public class ProductMasterCustomRepositoryImpl implements ProductMasterCustomRep
 
         String insertQuery =
                 "INSERT INTO ProductMaster " +
-                        "(image1, " +
+                        "(createdBy, " +
+                        "createdDate, " +
+                        "image1, " +
                         "image2, " +
                         "image3, " +
                         "image4, " +
                         "productName, " +
+                        "productCurrency, " +
                         "productPrice, " +
+                        "productDiscount, " +
+                        "itemFor, " +
                         "productCategory, " +
                         "productCondition, " +
                         "productDescription, " +
@@ -34,16 +40,21 @@ public class ProductMasterCustomRepositoryImpl implements ProductMasterCustomRep
                         "isDeleted, " +
                         "isSold, " +
                         "accountMasterId) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.update(insertQuery,
+                productMasterDto.getAccountMasterId(),
+                LocalDateTime.now(),
                 productMasterDto.getImage1(),
                 productMasterDto.getImage2(),
                 productMasterDto.getImage3(),
                 productMasterDto.getImage4(),
                 productMasterDto.getProductName(),
+                productMasterDto.getProductCurrency(),
                 productMasterDto.getProductPrice(),
-                productMasterDto.getProductCondition(),
+                productMasterDto.getProductDiscount(),
+                productMasterDto.getItemFor(),
+                productMasterDto.getProductCategory(),
                 productMasterDto.getProductCondition(),
                 productMasterDto.getProductDescription(),
                 productMasterDto.getProductLocation(),
@@ -58,12 +69,17 @@ public class ProductMasterCustomRepositoryImpl implements ProductMasterCustomRep
 
         String updateQuery =
                 "UPDATE ProductMaster SET " +
+                        "updatedBy = ?, " +
+                        "updatedDate = ?, " +
                         "image1 = ?, " +
                         "image2 = ?, " +
                         "image3 = ?, " +
                         "image4 = ?, " +
                         "productName = ?, " +
+                        "productCurrency = ?, " +
                         "productPrice = ?, " +
+                        "productDiscount = ?, " +
+                        "itemFor = ?, " +
                         "productCategory = ?, " +
                         "productCondition = ?, " +
                         "productDescription = ?, " +
@@ -74,12 +90,17 @@ public class ProductMasterCustomRepositoryImpl implements ProductMasterCustomRep
                         "WHERE id = ?";
 
         jdbcTemplate.update(updateQuery,
+                productMasterDto.getAccountMasterId(),
+                LocalDateTime.now(),
                 productMasterDto.getImage1(),
                 productMasterDto.getImage2(),
                 productMasterDto.getImage3(),
                 productMasterDto.getImage4(),
                 productMasterDto.getProductName(),
+                productMasterDto.getProductCurrency(),
                 productMasterDto.getProductPrice(),
+                productMasterDto.getProductDiscount(),
+                productMasterDto.getItemFor(),
                 productMasterDto.getProductCategory(),
                 productMasterDto.getProductCondition(),
                 productMasterDto.getProductDescription(),
@@ -91,7 +112,7 @@ public class ProductMasterCustomRepositoryImpl implements ProductMasterCustomRep
         );
     }
 
-    @Override
+
     public List<ProductMasterDto> listProductMasters(ProductMasterListRequestDto productMasterListRequestDto) {
 
         String whereClause = String.format("WHERE accountMasterId = '%s' ", productMasterListRequestDto.getAccountId());

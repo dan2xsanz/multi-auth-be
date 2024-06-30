@@ -22,12 +22,12 @@ public class ProductMasterController {
     @Autowired
     private ProductMasterService productMasterService;
 
-    @PostMapping("product-by-user")
+    @PostMapping("product-by-filter")
     @ResponseStatus(HttpStatus.OK)
     public ApiResultModel getProductsByUser(@RequestBody ProductMasterListRequestDto productMasterListRequestDto) throws ExemptionError, IOException {
         return ApiResultModel.builder()
                 .isSuccess(true)
-                .resultData(productMasterService.productMasterList(productMasterListRequestDto))
+                .resultData(productMasterService.productMasterListFilter(productMasterListRequestDto))
                 .build();
     }
 
