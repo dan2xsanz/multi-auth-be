@@ -39,6 +39,19 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public void deleteUploadImage(Object id,
+                                  String fileDirectory,
+                                  String fileName) throws IOException {
+        try {
+            java.nio.file.Path fullFileDirectory = Paths.get(fileDirectory, id.toString());
+            String fullFileName = String.format("%s\\%s", fullFileDirectory, fileName);
+            Files.deleteIfExists(Paths.get(fullFileName));
+        } catch (IOException o) {
+            throw new IOException(o);
+        }
+    }
+
+    @Override
     public String generateFileName() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String formattedDateTime = LocalDateTime.now().format(formatter);

@@ -6,12 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductMasterDto {
+public class ProductMasterListResponseDto {
 
     private Long id;
 
@@ -37,7 +36,7 @@ public class ProductMasterDto {
 
     private Integer productDiscount;
 
-    private Integer itemFor;
+    private String itemFor;
 
     private String productCategory;
 
@@ -56,5 +55,6 @@ public class ProductMasterDto {
     @JsonProperty("isSold")
     private boolean isSold;
 
+    @JsonProperty("justIn")
+    private boolean justIn;
 }
-
