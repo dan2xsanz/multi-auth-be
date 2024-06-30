@@ -8,5 +8,8 @@ public interface ImageService {
 
     void uploadImage(Object id, String fileDirectory, String fileName, String base64Image) throws IOException;
 
+    void deleteUploadImage(Object id, String fileDirectory, String fileName) throws IOException;
+
     String getUploadImage(Object id, String fileDirectory, String fileName) throws IOException;
+
 }
