@@ -38,6 +38,7 @@ public class FavoritesServiceImpl implements FavoritesService {
 
     @Override
     public void addToProductToFavoritesByAccount(FavoritesDto favoritesDto) {
+
         favoritesCustomRepository.addToFavoritesRequest(favoritesDto);
 
     }
