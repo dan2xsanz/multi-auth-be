@@ -85,6 +85,7 @@ public class ProductMasterServiceImpl implements ProductMasterService {
                 }
 
                 productMaster.setItemFor(productMasterDto.getItemFor().toString());
+                productMaster.setAccountMasterId(productMasterDto.getAccountMaster().getId());
                 productMaster.setProductCurrency(productMasterDto.getProductCurrency().toString());
                 productMaster.setProductCategory(productMasterDto.getProductCategory().toString());
                 productMaster.setProductCondition(productMasterDto.getProductCondition().toString());
