@@ -1,4 +1,4 @@
-package com.multiauth.multiauthapplication.functions.notifications.dto;
+package com.multiauth.multiauthapplication.functions.heartreact.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NotificationMessage {
+public class HeartReactsListResponseDto {
 
     private Long accountMasterId;
-
-    private String content;
 }
