@@ -1,13 +1,16 @@
-package com.multiauth.multiauthapplication.functions.favorites.service.impl;
+package com.multiauth.multiauthapplication.functions.heartreact.service.impl;
 
 import com.multiauth.multiauthapplication.common.constant.Constant;
+import com.multiauth.multiauthapplication.common.enums.NotificationEnum;
 import com.multiauth.multiauthapplication.common.image.ImageService;
-import com.multiauth.multiauthapplication.functions.favorites.dto.FavoritesDto;
-import com.multiauth.multiauthapplication.functions.favorites.repository.FavoritesRepository;
-import com.multiauth.multiauthapplication.functions.favorites.repository.custom.FavoritesCustomRepository;
-import com.multiauth.multiauthapplication.functions.favorites.service.FavoritesService;
+import com.multiauth.multiauthapplication.functions.heartreact.dto.HeartReactsDto;
+import com.multiauth.multiauthapplication.functions.heartreact.repository.HeartReactRepository;
+import com.multiauth.multiauthapplication.functions.heartreact.repository.custom.HeartReactsCustomRepository;
+import com.multiauth.multiauthapplication.functions.heartreact.service.HeartReactService;
+import com.multiauth.multiauthapplication.functions.notification.dto.NotificationDto;
+import com.multiauth.multiauthapplication.functions.notification.service.NotificationService;
 import com.multiauth.multiauthapplication.functions.productmaster.dto.ProductMasterListResponseDto;
-import com.multiauth.multiauthapplication.model.Favorites;
+import com.multiauth.multiauthapplication.model.HeartReacts;
 import com.multiauth.multiauthapplication.model.ProductMaster;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
@@ -22,51 +25,63 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FavoritesServiceImpl implements FavoritesService {
+public class HeartReactServiceImpl implements HeartReactService {
 
     @Value(value = "${app.product-image-path}")
     private String productImagePath;
 
     @Autowired
-    private FavoritesCustomRepository favoritesCustomRepository;
+    private HeartReactsCustomRepository heartReactsCustomRepository;
 
     @Autowired
-    private FavoritesRepository favoritesRepository;
+    private HeartReactRepository heartReactRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private ImageService imageService;
 
     @Override
-    public void addToProductToFavoritesByAccount(FavoritesDto favoritesDto) {
+    public void addToProductToHeartReactsByAccount(HeartReactsDto heartReactsDto) {
 
-        favoritesCustomRepository.addToFavoritesRequest(favoritesDto);
+        heartReactsCustomRepository.addToHeartReactsRequest(heartReactsDto);
 
-    }
+        // GENERATE NOTIFICATION
+        NotificationDto notificationDto = new NotificationDto();
+        notificationDto.setRead(false);
+        notificationDto.setAccountMasterId(heartReactsDto.getAccountMasterId());
+        notificationDto.setProductMasterId(heartReactsDto.getProductMasterId());
+        notificationDto.setNotificationTopic(NotificationEnum.REACTION.getNotificationEnum());
 
-    @Override
-    public void deleteFavoriteByAccountAndProduct(FavoritesDto favoritesDto) {
-        favoritesCustomRepository.deleteFavoriteRequest(favoritesDto);
-
-    }
-
-    @Override
-    public List<Long> countAllNumberOfFavorites(Long productMasterId) {
-        return favoritesRepository.countNumberOfFavoritesByAccountMasterId(productMasterId);
+        notificationService.generateNotification(notificationDto);
 
     }
 
     @Override
-    public List<ProductMasterListResponseDto> favoritesListByAccountMasterId(Long accountMasterId) throws IOException {
+    public void deleteHeartReactsDtoByAccountAndProduct(HeartReactsDto heartReactsDto) {
+        heartReactsCustomRepository.deleteHeartReactsRequest(heartReactsDto);
 
-        List<Favorites> listOfFavoritesByAccount = favoritesRepository.favoritesByAccountMasterId(accountMasterId);
+    }
+
+    @Override
+    public List<Long> countAllNumberOfHeartReacts(Long productMasterId) {
+        return heartReactRepository.countNumberOfHeartReactsByAccountMasterId(productMasterId);
+
+    }
+
+    @Override
+    public List<ProductMasterListResponseDto> heartReactListByAccountMasterId(Long accountMasterId) throws IOException {
+
+        List<HeartReacts> listOfHeartReactsByAccount = heartReactRepository.heartReactsByAccountMasterId(accountMasterId);
 
         List<ProductMasterListResponseDto> productMasterList = new ArrayList<>();
 
         List<ProductMaster> productMasters = new ArrayList<>();
 
-        if (ObjectUtils.isNotEmpty(listOfFavoritesByAccount)) {
-            for (Favorites favorites : listOfFavoritesByAccount) {
-                productMasters.add(favorites.getProductMaster());
+        if (ObjectUtils.isNotEmpty(listOfHeartReactsByAccount)) {
+            for (HeartReacts heartReacts : listOfHeartReactsByAccount) {
+                productMasters.add(heartReacts.getProductMaster());
             }
         }
 
