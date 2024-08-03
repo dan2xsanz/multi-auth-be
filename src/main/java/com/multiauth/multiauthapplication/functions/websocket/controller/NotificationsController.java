@@ -1,6 +1,6 @@
-package com.multiauth.multiauthapplication.functions.notifications.controller;
+package com.multiauth.multiauthapplication.functions.websocket.controller;
 
-import com.multiauth.multiauthapplication.functions.notifications.dto.NotificationMessage;
+import com.multiauth.multiauthapplication.functions.websocket.dto.NotificationMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
