@@ -34,4 +34,9 @@ public class Notification {
     @JoinColumn(name = "accountMasterId", nullable = false)
     @JsonBackReference
     private AccountMaster accountMaster;
+
+    @ManyToOne
+    @JoinColumn(name = "notifiedAccountMasterId", nullable = false)
+    @JsonBackReference
+    private AccountMaster notifiedAccountMaster;
 }

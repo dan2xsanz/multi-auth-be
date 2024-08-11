@@ -49,9 +49,11 @@ public class HeartReactServiceImpl implements HeartReactService {
 
         // GENERATE NOTIFICATION
         NotificationDto notificationDto = new NotificationDto();
+
         notificationDto.setRead(false);
         notificationDto.setAccountMasterId(heartReactsDto.getAccountMasterId());
         notificationDto.setProductMasterId(heartReactsDto.getProductMasterId());
+        notificationDto.setNotifiedAccountMasterId(heartReactsDto.getNotifiedAccountMasterId());
         notificationDto.setNotificationTopic(NotificationEnum.REACTION.getNotificationEnum());
 
         notificationService.generateNotification(notificationDto);

@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface ProductMasterService {
 
+    ProductMasterDto getProductById(Long productId) throws IOException;
+
     List<ProductMasterListResponseDto> productMasterListFilter(ProductMasterListRequestDto productMasterListRequestDto) throws IOException;
 
     ProductMasterDto createProduct(ProductMasterDto productMasterDto) throws IOException;
