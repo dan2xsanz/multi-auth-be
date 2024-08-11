@@ -1,15 +1,16 @@
 package com.multiauth.multiauthapplication.functions.commentsectionmaster.dto;
 
+import com.multiauth.multiauthapplication.common.dto.NotificationDetailsDto;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentSectionDto {
+public class CommentSectionDto extends NotificationDetailsDto {
 
     private Long id;
 
