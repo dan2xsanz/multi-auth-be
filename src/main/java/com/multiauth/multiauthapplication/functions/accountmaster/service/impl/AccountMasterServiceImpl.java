@@ -1,6 +1,8 @@
 package com.multiauth.multiauthapplication.functions.accountmaster.service.impl;
 
+import com.multiauth.multiauthapplication.common.constant.Constant;
 import com.multiauth.multiauthapplication.common.email.EmailService;
+import com.multiauth.multiauthapplication.common.image.ImageService;
 import com.multiauth.multiauthapplication.config.exemption.ExemptionError;
 import com.multiauth.multiauthapplication.config.exemption.ExemptionErrorMessages;
 import com.multiauth.multiauthapplication.functions.accountmaster.dto.AccountMasterDto;
@@ -10,20 +12,29 @@ import com.multiauth.multiauthapplication.functions.otp.dto.OtpDto;
 import com.multiauth.multiauthapplication.functions.otp.service.OtpService;
 import com.multiauth.multiauthapplication.util.CommonUtils;
 import com.multiauth.multiauthapplication.util.dto.FindByPropertyDto;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
 public class AccountMasterServiceImpl implements AccountMasterService {
+
+    @Value(value = "${app.account-image-path}")
+    private String accountImagePath;
 
     @Autowired
     private AccountMasterCustomRepository accountMasterCustomRepository;
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private ImageService imageService;
 
     @Autowired
     private CommonUtils commonUtils;
@@ -77,6 +88,41 @@ public class AccountMasterServiceImpl implements AccountMasterService {
             }
         } else {
             accountMasterCustomRepository.createNewAccount(accountMasterDto);
+
+        }
+
+        return accountMasterDto;
+    }
+
+    public AccountMasterDto updateAccount(AccountMasterDto accountMasterDto) throws ExemptionError, IOException {
+
+        FindByPropertyDto findByPropertyDto = new FindByPropertyDto();
+        findByPropertyDto.setTableProperty("id");
+        findByPropertyDto.setTableName("AccountMaster");
+        findByPropertyDto.setSelectedTableProperty("id");
+        findByPropertyDto.setTablePropertyValue(accountMasterDto.getId().toString());
+
+        Long accountId = commonUtils.findByProperties(findByPropertyDto, Long.class);
+
+        if (ObjectUtils.isEmpty(accountId)) {
+            throw new ExemptionError(ExemptionErrorMessages.RECORD_NOT_EXIST);
+
+        }
+
+        AccountMasterDto newAccount = new AccountMasterDto();
+        BeanUtils.copyProperties(accountMasterDto, newAccount);
+
+        newAccount.setCoverImg(imageService.generateFileName());
+
+        accountMasterCustomRepository.updateAccount(newAccount);
+
+        imageService.uploadImage(Constant.PROD_IMAGE_NAME_1, accountImagePath, newAccount.getCoverImg(), accountMasterDto.getCoverImg());
+
+
+        // IMAGE COVER PHOTO
+        if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMasterDto.getCoverImg())) {
+            accountMasterDto.setCoverImg(
+                    imageService.getUploadImage(Constant.PROD_IMAGE_NAME_1, accountImagePath, newAccount.getCoverImg()));
 
         }
 
