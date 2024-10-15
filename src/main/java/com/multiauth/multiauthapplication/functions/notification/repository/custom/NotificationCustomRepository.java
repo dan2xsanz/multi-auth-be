@@ -5,4 +5,6 @@ import com.multiauth.multiauthapplication.functions.notification.dto.Notificatio
 public interface NotificationCustomRepository {
 
     void addNewNotification(NotificationDto notificationDto);
+
+    void readNotification(NotificationDto notificationDto);
 }

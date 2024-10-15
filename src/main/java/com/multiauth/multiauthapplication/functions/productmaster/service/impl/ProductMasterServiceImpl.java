@@ -25,17 +25,73 @@ import java.util.List;
 @Service
 public class ProductMasterServiceImpl implements ProductMasterService {
 
+    @Value(value = "${app.product-image-path}")
+    private  String productImagePath;
+
     @Autowired
     private ProductMasterCustomRepository productMasterCustomRepository;
 
     @Autowired
     private ProductMasterRepository productMasterRepository;
 
-    @Value(value = "${app.product-image-path}")
-    private String productImagePath;
-
     @Autowired
     private ImageService imageService;
+
+    @Override
+    public ProductMasterDto getProductById(Long productId) throws IOException {
+
+        // FIND PRODUCT MASTER BY ID
+        ProductMaster productMaster = productMasterRepository.getById(productId);
+
+        if (ObjectUtils.isNotEmpty(productMaster)) {
+
+            ProductMasterDto productMasterResponse = new ProductMasterDto();
+            BeanUtils.copyProperties(productMaster, productMasterResponse);
+
+            // IMAGE 1
+            if (ObjectUtils.isNotEmpty(productMaster.getImage1())) {
+                productMasterResponse.setImage1(
+                        imageService.getUploadImage(Constant.PROD_IMAGE_NAME_1, productImagePath, productMaster.getImage1()));
+
+            }
+            // IMAGE 2
+            if (ObjectUtils.isNotEmpty(productMaster.getImage2())) {
+                productMasterResponse.setImage2(
+                        imageService.getUploadImage(Constant.PROD_IMAGE_NAME_2, productImagePath, productMaster.getImage2()));
+
+            }
+            // IMAGE 3
+            if (ObjectUtils.isNotEmpty(productMaster.getImage3())) {
+                productMasterResponse.setImage3(
+                        imageService.getUploadImage(Constant.PROD_IMAGE_NAME_3, productImagePath, productMaster.getImage3()));
+
+            }
+            // IMAGE 3
+            if (ObjectUtils.isNotEmpty(productMaster.getImage4())) {
+                productMasterResponse.setImage4(
+                        imageService.getUploadImage(Constant.PROD_IMAGE_NAME_4, productImagePath, productMaster.getImage4()));
+
+            }
+
+            // JUST IN PRODUCTS
+            LocalDateTime createdDate = productMaster.getCreatedDate();
+            if (createdDate.toLocalDate().isEqual(LocalDate.now())) {
+                productMasterResponse.setJustIn(true);
+
+            }
+
+            productMasterResponse.setItemFor(productMaster.getItemFor().toString());
+            productMasterResponse.setAccountMasterId(productMaster.getAccountMaster().getId());
+            productMasterResponse.setProductCurrency(productMaster.getProductCurrency().toString());
+            productMasterResponse.setProductCategory(productMaster.getProductCategory().toString());
+            productMasterResponse.setProductCondition(productMaster.getProductCondition().toString());
+
+
+            return productMasterResponse;
+        }
+
+        return null;
+    }
 
     @Override
     public List<ProductMasterListResponseDto> productMasterListFilter(ProductMasterListRequestDto productMasterListRequestDto) throws IOException {

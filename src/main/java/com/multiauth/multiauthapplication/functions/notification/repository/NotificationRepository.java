@@ -13,7 +13,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     @Query(value = "SELECT * FROM Notification as notification " +
             "LEFT JOIN ProductMaster as pm ON notification.productMasterId = pm.id " +
-            "WHERE notification.accountMasterId = :accountMasterId", nativeQuery = true)
+            "WHERE notification.notifiedAccountMasterId = :accountMasterId ORDER BY notification.id DESC", nativeQuery = true)
     List<Notification> notificationByAccountMasterId(@Param("accountMasterId") Long accountMasterId);
 
 }

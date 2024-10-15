@@ -20,14 +20,29 @@ public class NotificationCustomRepositoryImpl implements NotificationCustomRepos
                         "(isRead, " +
                         "notificationTopic, " +
                         "productMasterId, " +
+                        "notifiedAccountMasterId, " +
                         "accountMasterId) " +
-                        "VALUES (?, ?, ?, ?)";
+                        "VALUES (?, ?, ?, ?, ?)";
 
         jdbcTemplate.update(insertQuery,
                 notificationDto.isRead(),
                 notificationDto.getNotificationTopic(),
                 notificationDto.getProductMasterId(),
+                notificationDto.getNotifiedAccountMasterId(),
                 notificationDto.getAccountMasterId());
 
+    }
+
+    @Override
+    public void readNotification(NotificationDto notificationDto) {
+
+        String updateQuery =
+                "UPDATE Notification SET " +
+                        "isRead = true " +
+                        "WHERE id = ?";
+
+        jdbcTemplate.update(updateQuery,
+                notificationDto.getId()
+        );
     }
 }

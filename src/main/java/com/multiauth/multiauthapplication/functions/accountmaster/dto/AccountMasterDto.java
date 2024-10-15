@@ -18,6 +18,12 @@ public class AccountMasterDto {
     @JsonProperty("fName")
     private String fName;
 
+    @JsonProperty("profileImg")
+    private String profileImg;
+
+    @JsonProperty("coverImg")
+    private String coverImg;
+
     @JsonProperty("lName")
     private String lName;
 
