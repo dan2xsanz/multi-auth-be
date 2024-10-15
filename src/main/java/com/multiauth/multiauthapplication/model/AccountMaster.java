@@ -2,21 +2,11 @@ package com.multiauth.multiauthapplication.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 import org.hibernate.annotations.BatchSize;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 import static org.springframework.jdbc.object.BatchSqlUpdate.DEFAULT_BATCH_SIZE;
@@ -34,6 +24,12 @@ public class AccountMaster {
     private Long id;
 
     private String firstName;
+
+    @JsonProperty("profileImg")
+    private String profileImg;
+
+    @JsonProperty("coverImg")
+    private String coverImg;
 
     private String lastName;
 

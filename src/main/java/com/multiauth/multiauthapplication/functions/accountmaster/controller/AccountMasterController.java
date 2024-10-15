@@ -7,11 +7,9 @@ import com.multiauth.multiauthapplication.functions.accountmaster.service.Accoun
 import com.multiauth.multiauthapplication.model.ApiResultModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("master-record/user-master")
@@ -26,6 +24,15 @@ public class AccountMasterController {
         return ApiResultModel.builder()
                 .isSuccess(true)
                 .resultData(accountMasterService.createNewAccount(accountMasterDto))
+                .build();
+    }
+
+    @PutMapping("update-user")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResultModel updateUser(@RequestBody AccountMasterDto accountMasterDto) throws ExemptionError, IOException {
+        return ApiResultModel.builder()
+                .isSuccess(true)
+                .resultData(accountMasterService.updateAccount(accountMasterDto))
                 .build();
     }
 }

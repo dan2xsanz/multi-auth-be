@@ -5,4 +5,6 @@ import com.multiauth.multiauthapplication.functions.accountmaster.dto.AccountMas
 public interface AccountMasterCustomRepository {
 
     void createNewAccount(AccountMasterDto accountMasterDto);
+
+    void updateAccount(AccountMasterDto accountMasterDto);
 }

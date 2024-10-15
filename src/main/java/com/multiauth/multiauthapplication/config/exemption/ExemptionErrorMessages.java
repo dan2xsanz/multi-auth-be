@@ -8,7 +8,9 @@ public enum ExemptionErrorMessages implements ExemptionErrorMessageBase {
 
     EMAIL_NOT_FOUND("EmailNotFound", "Email Not Found, Please make sure email is registered."),
 
-    INVALID_CREDENTIALS("InvalidCredentials", "Invalid Credentials, Please try again.");
+    INVALID_CREDENTIALS("InvalidCredentials", "Invalid Credentials, Please try again."),
+
+    RECORD_NOT_EXIST("RecordNotExist", "Record does not exist");
 
     private final String code;
 
