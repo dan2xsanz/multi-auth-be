@@ -2,11 +2,29 @@ package com.multiauth.multiauthapplication.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
+=======
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+>>>>>>> 672fd2c7dd511a2e4a038241324e41a9a74203eb
 import java.util.Set;
 
 import static org.springframework.jdbc.object.BatchSqlUpdate.DEFAULT_BATCH_SIZE;
