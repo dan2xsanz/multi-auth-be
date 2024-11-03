@@ -13,4 +13,8 @@ public class Constant {
     public static final String IMAGE = "Image";
 
     public static final String JPEG = "jpeg";
+
+    public static final String COVER_PHOTO = "Cover Photo";
+
+    public static final String PROFILE = "Profile";
 }

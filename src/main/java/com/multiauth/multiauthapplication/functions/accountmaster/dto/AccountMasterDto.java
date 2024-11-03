@@ -15,11 +15,17 @@ public class AccountMasterDto {
 
     private Long id;
 
-    @JsonProperty("fName")
-    private String fName;
+    @JsonProperty("firstName")
+    private String firstName;
 
-    @JsonProperty("lName")
-    private String lName;
+    @JsonProperty("lastName")
+    private String lastName;
+
+    @JsonProperty("profileImg")
+    private String profileImg;
+
+    @JsonProperty("coverImg")
+    private String coverImg;
 
     private String email;
 

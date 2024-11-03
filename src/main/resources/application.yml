@@ -39,4 +39,5 @@ allowed:
 
 app:
   product-image-path: C:\Users\danle\Documents\Image
+  account-image-path: C:\Users\danle\Documents\Image
 
