@@ -29,8 +29,8 @@ public class AccountMasterCustomCustomRepositoryImpl implements AccountMasterCus
 
         jdbcTemplate.update(insertQuery,
                 accountMasterDto.getEmail(),
-                accountMasterDto.getFName(),
-                accountMasterDto.getLName(),
+                accountMasterDto.getFirstName(),
+                accountMasterDto.getLastName(),
                 accountMasterDto.getPassword());
 
     }
@@ -39,13 +39,13 @@ public class AccountMasterCustomCustomRepositoryImpl implements AccountMasterCus
         StringBuilder queryBuilder = new StringBuilder("UPDATE AccountMaster SET ");
         List<Object> queryParams = new ArrayList<>();
 
-        if (ObjectUtils.isNotEmpty(accountMasterDto.getFName())) {
+        if (ObjectUtils.isNotEmpty(accountMasterDto.getFirstName())) {
             queryBuilder.append("firstName = ?, ");
-            queryParams.add(accountMasterDto.getFName());
+            queryParams.add(accountMasterDto.getFirstName());
         }
-        if (ObjectUtils.isNotEmpty(accountMasterDto.getLName())) {
+        if (ObjectUtils.isNotEmpty(accountMasterDto.getLastName())) {
             queryBuilder.append("lastName = ?, ");
-            queryParams.add(accountMasterDto.getLName());
+            queryParams.add(accountMasterDto.getLastName());
         }
         if (ObjectUtils.isNotEmpty(accountMasterDto.getPassword())) {
             queryBuilder.append("password = ?, ");
