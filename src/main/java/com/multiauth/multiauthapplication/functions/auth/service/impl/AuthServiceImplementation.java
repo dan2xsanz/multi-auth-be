@@ -36,7 +36,6 @@ public class AuthServiceImplementation implements AuthService {
         if (ObjectUtils.isEmpty(accountMaster)) {
             throw new ExemptionError(ExemptionErrorMessages.INVALID_CREDENTIALS);
 
-<<<<<<< HEAD
         }
 
         // IMAGE COVER PHOTO
@@ -51,8 +50,6 @@ public class AuthServiceImplementation implements AuthService {
             accountMaster.setProfileImg(
                     imageService.getUploadImage(Constant.PROFILE, accountImagePath, accountMaster.getProfileImg()));
 
-=======
->>>>>>> 672fd2c7dd511a2e4a038241324e41a9a74203eb
         }
 
         // RETURN ACCOUNT
