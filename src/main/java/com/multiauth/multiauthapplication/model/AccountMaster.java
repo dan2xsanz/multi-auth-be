@@ -23,15 +23,17 @@ public class AccountMaster {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonProperty("firstName")
     private String firstName;
+
+    @JsonProperty("lastName")
+    private String lastName;
 
     @JsonProperty("profileImg")
     private String profileImg;
 
     @JsonProperty("coverImg")
     private String coverImg;
-
-    private String lastName;
 
     private String email;
 

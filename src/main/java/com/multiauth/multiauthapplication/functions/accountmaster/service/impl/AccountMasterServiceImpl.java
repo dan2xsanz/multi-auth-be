@@ -62,7 +62,7 @@ public class AccountMasterServiceImpl implements AccountMasterService {
             // GENERATE OTP
             String otpGenerated = emailService.sendOTPEmail(
                     accountMasterDto.getEmail(),
-                    accountMasterDto.getFName() + " " + accountMasterDto.getLName());
+                    accountMasterDto.getFirstName() + " " + accountMasterDto.getLastName());
 
             // CHECK IF OTP FOR SPECIFIC USER IS EXIST
             FindByPropertyDto findOtpPropertyDto = new FindByPropertyDto();
@@ -113,16 +113,24 @@ public class AccountMasterServiceImpl implements AccountMasterService {
         BeanUtils.copyProperties(accountMasterDto, newAccount);
 
         newAccount.setCoverImg(imageService.generateFileName());
+        newAccount.setProfileImg(imageService.generateFileName());
 
         accountMasterCustomRepository.updateAccount(newAccount);
 
-        imageService.uploadImage(Constant.PROD_IMAGE_NAME_1, accountImagePath, newAccount.getCoverImg(), accountMasterDto.getCoverImg());
-
+        imageService.uploadImage(Constant.COVER_PHOTO, accountImagePath, newAccount.getCoverImg(), accountMasterDto.getCoverImg());
+        imageService.uploadImage(Constant.PROFILE, accountImagePath, newAccount.getProfileImg(), accountMasterDto.getProfileImg());
 
         // IMAGE COVER PHOTO
         if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMasterDto.getCoverImg())) {
             accountMasterDto.setCoverImg(
-                    imageService.getUploadImage(Constant.PROD_IMAGE_NAME_1, accountImagePath, newAccount.getCoverImg()));
+                    imageService.getUploadImage(Constant.COVER_PHOTO, accountImagePath, newAccount.getCoverImg()));
+
+        }
+
+        // IMAGE COVER PHOTO
+        if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMasterDto.getProfileImg())) {
+            accountMasterDto.setProfileImg(
+                    imageService.getUploadImage(Constant.PROFILE, accountImagePath, newAccount.getProfileImg()));
 
         }
 

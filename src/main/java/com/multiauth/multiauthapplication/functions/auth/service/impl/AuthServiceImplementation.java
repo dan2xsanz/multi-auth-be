@@ -41,7 +41,14 @@ public class AuthServiceImplementation implements AuthService {
         // IMAGE COVER PHOTO
         if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMaster.getCoverImg())) {
             accountMaster.setCoverImg(
-                    imageService.getUploadImage(Constant.PROD_IMAGE_NAME_1, accountImagePath, accountMaster.getCoverImg()));
+                    imageService.getUploadImage(Constant.COVER_PHOTO, accountImagePath, accountMaster.getCoverImg()));
+
+        }
+
+        // IMAGE COVER PHOTO
+        if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMaster.getProfileImg())) {
+            accountMaster.setProfileImg(
+                    imageService.getUploadImage(Constant.PROFILE, accountImagePath, accountMaster.getProfileImg()));
 
         }
 
