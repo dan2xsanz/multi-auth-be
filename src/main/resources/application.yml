@@ -1,10 +1,10 @@
 spring:
   datasource:
-    name: SiriusDB
+    name: defaultdb
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/snz_db
-    username: root
-    password: root
+    url: jdbc:mysql://avnadmin:AVNS_DFRI1R-RuPHFzGceYe1@mysql-398af07c-dan2xsanz1978-b788.h.aivencloud.com:15898/defaultdb?ssl-mode=REQUIRED
+    username: avnadmin
+    password: AVNS_DFRI1R-RuPHFzGceYe1
 
   jpa:
     hibernate:
@@ -32,7 +32,7 @@ server:
         secure: true
         same-site: strict
     context-path: /api/
-  port: 8080
+  port: 15898
 
 allowed:
   origin: http://localhost:3000
