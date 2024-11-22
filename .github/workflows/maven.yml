@@ -29,3 +29,14 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+    - name: Build and push Docket Image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: iamdl/snz-backend-image
+        tags: v1
+        registry: docker.io
+        docketfile: Dockerfile
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
