@@ -30,7 +30,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Build and push Docker image
+    - name: Build and push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
         image: iamdl/snz-backend-image
