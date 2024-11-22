@@ -36,7 +36,7 @@ jobs:
         image: iamdl/snz-backend-image
         tags: v1
         registry: docker.io
-        dockerfile: ./Dockerfile
+        dockerfile: Dockerfile
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
