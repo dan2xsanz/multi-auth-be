@@ -14,8 +14,8 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class CorsConfig {
 
-@Autowired
-private Environment environment;
+    @Autowired
+    private Environment environment;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

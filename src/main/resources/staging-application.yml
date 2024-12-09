@@ -1,10 +1,10 @@
 spring:
   datasource:
-    name: defaultdb
+    name: snzdatabase
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://avnadmin:AVNS_DFRI1R-RuPHFzGceYe1@mysql-398af07c-dan2xsanz1978-b788.h.aivencloud.com:15898/defaultdb?ssl-mode=REQUIRED
-    username: avnadmin
-    password: AVNS_DFRI1R-RuPHFzGceYe1
+    url: jdbc:mysql://snzdatabase.c9ucu0g4evlh.ap-southeast-2.rds.amazonaws.com:3307/snzdatabase
+    username: admin
+    password: lesterDAN09sanz___
 
   jpa:
     hibernate:
@@ -32,12 +32,12 @@ server:
         secure: true
         same-site: strict
     context-path: /api/
-  port: 15898
+  port: 8080
 
 allowed:
-  origin: http://localhost:3000
+  origin: http://localhost:3000,http://snzwebbucket.s3-website-ap-southeast-2.amazonaws.com
 
 app:
-  product-image-path: C:\Users\danle\Documents\Image
-  account-image-path: C:\Users\danle\Documents\Image
+  product-image-path: /home/ec2-user/images
+  account-image-path: /home/ec2-user/images
 
