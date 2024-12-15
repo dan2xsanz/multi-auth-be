@@ -5,8 +5,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import static org.springframework.jdbc.object.BatchSqlUpdate.DEFAULT_BATCH_SIZE;
@@ -18,7 +22,7 @@ import static org.springframework.jdbc.object.BatchSqlUpdate.DEFAULT_BATCH_SIZE;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "AccountMaster")
-public class AccountMaster {
+public class AccountMaster implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,4 +52,34 @@ public class AccountMaster {
     @JsonBackReference
     @BatchSize(size = DEFAULT_BATCH_SIZE)
     private Set<CommentSectionMaster> commentSections;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

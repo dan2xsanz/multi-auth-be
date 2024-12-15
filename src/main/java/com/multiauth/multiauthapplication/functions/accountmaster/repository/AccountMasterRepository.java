@@ -9,6 +9,10 @@ import java.util.Optional;
 
 public interface AccountMasterRepository extends JpaRepository<AccountMaster, Long> {
 
+    @Query(value = "Select * FROM AccountMaster WHERE email =:email", nativeQuery = true)
+    AccountMaster validateAccountMasterByEmail(@Param("email") String email);
+
+
     @Query(value = "Select * FROM AccountMaster " +
             "WHERE email =:email AND password =:password", nativeQuery = true)
     Optional<AccountMaster> validateAccountMaster(@Param("email") String email, @Param("password") String password);
