@@ -18,15 +18,6 @@ public class AccountMasterController {
     @Autowired
     private AccountMasterService accountMasterService;
 
-    @PostMapping("create-user")
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResultModel createUser(@RequestBody AccountMasterDto accountMasterDto) throws ExemptionError {
-        return ApiResultModel.builder()
-                .isSuccess(true)
-                .resultData(accountMasterService.createNewAccount(accountMasterDto))
-                .build();
-    }
-
     @PutMapping("update-user")
     @ResponseStatus(HttpStatus.OK)
     public ApiResultModel updateUser(@RequestBody AccountMasterDto accountMasterDto) throws ExemptionError, IOException {

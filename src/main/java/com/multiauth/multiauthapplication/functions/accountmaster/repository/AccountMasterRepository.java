@@ -14,8 +14,8 @@ public interface AccountMasterRepository extends JpaRepository<AccountMaster, Lo
 
 
     @Query(value = "Select * FROM AccountMaster " +
-            "WHERE email =:email AND password =:password", nativeQuery = true)
-    Optional<AccountMaster> validateAccountMaster(@Param("email") String email, @Param("password") String password);
+            "WHERE email =:email", nativeQuery = true)
+    Optional<AccountMaster> validateAccountMaster(@Param("email") String email);
 
 
     @Query(value = "Select * FROM AccountMaster " +

@@ -1,5 +1,8 @@
 package com.multiauth.multiauthapplication.functions.auth.controller;
 
+import com.multiauth.multiauthapplication.config.exemption.ExemptionError;
+import com.multiauth.multiauthapplication.functions.accountmaster.dto.AccountMasterDto;
+import com.multiauth.multiauthapplication.functions.accountmaster.service.AccountMasterService;
 import com.multiauth.multiauthapplication.functions.auth.dto.LoginRequestDto;
 import com.multiauth.multiauthapplication.functions.auth.service.AuthService;
 import com.multiauth.multiauthapplication.model.ApiResultModel;
@@ -14,7 +17,19 @@ import java.io.IOException;
 public class AuthController {
 
     @Autowired
+    private AccountMasterService accountMasterService;
+
+    @Autowired
     private AuthService authService;
+
+    @PostMapping("create-user")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResultModel createUser(@RequestBody AccountMasterDto accountMasterDto) throws ExemptionError {
+        return ApiResultModel.builder()
+                .isSuccess(true)
+                .resultData(accountMasterService.createNewAccount(accountMasterDto))
+                .build();
+    }
 
     @PostMapping("login")
     @ResponseStatus(HttpStatus.OK)

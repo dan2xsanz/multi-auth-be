@@ -14,4 +14,11 @@ public class LoginRequestDto {
     private String username;
 
     private String password;
+
+    // JWT
+    private String token;
+
+    private String refreshToken;
+
+    private String expirationTime;
 }

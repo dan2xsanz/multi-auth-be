@@ -15,6 +15,7 @@ import com.multiauth.multiauthapplication.util.dto.FindByPropertyDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -31,6 +32,9 @@ public class AccountMasterServiceImpl implements AccountMasterService {
     private AccountMasterCustomRepository accountMasterCustomRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private EmailService emailService;
 
     @Autowired
@@ -43,6 +47,9 @@ public class AccountMasterServiceImpl implements AccountMasterService {
     private OtpService otpService;
 
     public AccountMasterDto createNewAccount(AccountMasterDto accountMasterDto) throws ExemptionError {
+
+        // DECODE PASSWORD
+        accountMasterDto.setPassword(passwordEncoder.encode(accountMasterDto.getPassword()));
 
         FindByPropertyDto findByPropertyDto = new FindByPropertyDto();
         findByPropertyDto.setTableProperty("email");

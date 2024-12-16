@@ -3,17 +3,22 @@ package com.multiauth.multiauthapplication.functions.auth.service.impl;
 import com.multiauth.multiauthapplication.common.constant.Constant;
 import com.multiauth.multiauthapplication.common.image.ImageService;
 import com.multiauth.multiauthapplication.config.exemption.ExemptionError;
-import com.multiauth.multiauthapplication.config.exemption.ExemptionErrorMessages;
+import com.multiauth.multiauthapplication.config.utils.JWTUtils;
 import com.multiauth.multiauthapplication.functions.accountmaster.repository.AccountMasterRepository;
 import com.multiauth.multiauthapplication.functions.auth.dto.LoginRequestDto;
+import com.multiauth.multiauthapplication.functions.auth.dto.LoginResponseDto;
 import com.multiauth.multiauthapplication.functions.auth.service.AuthService;
 import com.multiauth.multiauthapplication.model.AccountMaster;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 @Service
 public class AuthServiceImplementation implements AuthService {
@@ -25,34 +30,68 @@ public class AuthServiceImplementation implements AuthService {
     private AccountMasterRepository accountMasterRepository;
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JWTUtils jwtUtils;
+
+    @Autowired
     private ImageService imageService;
 
-    public AccountMaster loginRequest(LoginRequestDto loginRequestDto) throws ExemptionError, IOException {
+    public LoginResponseDto loginRequest(LoginRequestDto loginRequestDto) throws ExemptionError, IOException {
 
-        // VALIDATE USERNAME AND PASSWORD
-        AccountMaster accountMaster = accountMasterRepository.validateAccountMaster(loginRequestDto.getUsername(), loginRequestDto.getPassword()).orElse(null);
+        LoginResponseDto loginResponseDto = new LoginResponseDto();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword()));
+        AccountMaster accountMaster = accountMasterRepository.validateAccountMaster(loginRequestDto.getUsername()).orElse(null);
 
-        // THROW INVALID CREDENTIALS IF EMPTY
-        if (ObjectUtils.isEmpty(accountMaster)) {
-            throw new ExemptionError(ExemptionErrorMessages.INVALID_CREDENTIALS);
+        if (ObjectUtils.isNotEmpty(accountMaster)) {
+            BeanUtils.copyProperties(accountMaster, loginResponseDto);
+
+            loginResponseDto.setToken(jwtUtils.generateToken(accountMaster));
+            loginResponseDto.setRefreshToken(jwtUtils.generateRefreshToken(new HashMap<>(), accountMaster));
+
+            // IMAGE COVER PHOTO
+            if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMaster.getCoverImg())) {
+                loginResponseDto.setCoverImg(
+                        imageService.getUploadImage(Constant.COVER_PHOTO, accountImagePath, accountMaster.getCoverImg()));
+
+            }
+
+            // IMAGE COVER PHOTO
+            if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMaster.getProfileImg())) {
+                loginResponseDto.setProfileImg(
+                        imageService.getUploadImage(Constant.PROFILE, accountImagePath, accountMaster.getProfileImg()));
+
+            }
 
         }
 
-        // IMAGE COVER PHOTO
-        if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMaster.getCoverImg())) {
-            accountMaster.setCoverImg(
-                    imageService.getUploadImage(Constant.COVER_PHOTO, accountImagePath, accountMaster.getCoverImg()));
+        return loginResponseDto;
 
-        }
-
-        // IMAGE COVER PHOTO
-        if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMaster.getProfileImg())) {
-            accountMaster.setProfileImg(
-                    imageService.getUploadImage(Constant.PROFILE, accountImagePath, accountMaster.getProfileImg()));
-
-        }
-
-        // RETURN ACCOUNT
-        return accountMaster;
+//        // VALIDATE USERNAME AND PASSWORD
+//        AccountMaster accountMaster = accountMasterRepository.validateAccountMaster(loginRequestDto.getUsername(), loginRequestDto.getPassword()).orElse(null);
+//
+//        // THROW INVALID CREDENTIALS IF EMPTY
+//        if (ObjectUtils.isEmpty(accountMaster)) {
+//            throw new ExemptionError(ExemptionErrorMessages.INVALID_CREDENTIALS);
+//
+//        }
+//
+//        // IMAGE COVER PHOTO
+//        if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMaster.getCoverImg())) {
+//            accountMaster.setCoverImg(
+//                    imageService.getUploadImage(Constant.COVER_PHOTO, accountImagePath, accountMaster.getCoverImg()));
+//
+//        }
+//
+//        // IMAGE COVER PHOTO
+//        if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMaster.getProfileImg())) {
+//            accountMaster.setProfileImg(
+//                    imageService.getUploadImage(Constant.PROFILE, accountImagePath, accountMaster.getProfileImg()));
+//
+//        }
+//
+//        // RETURN ACCOUNT
+//        return accountMaster;
     }
 }
