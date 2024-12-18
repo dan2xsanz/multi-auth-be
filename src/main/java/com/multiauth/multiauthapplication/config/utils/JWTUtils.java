@@ -21,7 +21,7 @@ public class JWTUtils {
 
     private SecretKey secretKey;
 
-    private static final long EXPIRATION_TIME = 86400000L; // 24 HOURS
+    private static final long EXPIRATION_TIME = 30000L; // 24 HOURS
 
 
     public JWTUtils() {

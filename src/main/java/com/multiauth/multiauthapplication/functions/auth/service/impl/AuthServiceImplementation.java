@@ -67,31 +67,5 @@ public class AuthServiceImplementation implements AuthService {
         }
 
         return loginResponseDto;
-
-//        // VALIDATE USERNAME AND PASSWORD
-//        AccountMaster accountMaster = accountMasterRepository.validateAccountMaster(loginRequestDto.getUsername(), loginRequestDto.getPassword()).orElse(null);
-//
-//        // THROW INVALID CREDENTIALS IF EMPTY
-//        if (ObjectUtils.isEmpty(accountMaster)) {
-//            throw new ExemptionError(ExemptionErrorMessages.INVALID_CREDENTIALS);
-//
-//        }
-//
-//        // IMAGE COVER PHOTO
-//        if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMaster.getCoverImg())) {
-//            accountMaster.setCoverImg(
-//                    imageService.getUploadImage(Constant.COVER_PHOTO, accountImagePath, accountMaster.getCoverImg()));
-//
-//        }
-//
-//        // IMAGE COVER PHOTO
-//        if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(accountMaster.getProfileImg())) {
-//            accountMaster.setProfileImg(
-//                    imageService.getUploadImage(Constant.PROFILE, accountImagePath, accountMaster.getProfileImg()));
-//
-//        }
-//
-//        // RETURN ACCOUNT
-//        return accountMaster;
     }
 }
